@@ -432,23 +432,59 @@
       </div>
     </section>
 
-    <!-- ✅ 연락처는 맨 아래 -->
+    <!-- ✅ 연락처는 맨 아래 (더 크게/확실하게) -->
     <section id="contact">
-      <div class="footer">
-        <div>
-          <div style="font-weight:900; letter-spacing:.2px" id="t_contactTitle">Contact</div>
-          <div class="muted" style="font-size:13px; margin-top:6px">
-            <span id="t_emailLabel">Email</span>:
-            <a href="mailto:info@phkfusionenergy.com" id="emailLink" style="text-decoration:underline">info@phkfusionenergy.com</a>
+      <div class="footer" style="padding:18px">
+        <div style="display:flex; flex-direction:column; gap:8px; min-width:280px">
+          <div style="font-weight:1000; font-size:16px; letter-spacing:.3px" id="t_contactTitle">Contact</div>
+
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
+            <span class="muted" style="font-size:13px" id="t_emailLabel">Email</span>
+            <span style="font-weight:1000; font-size:14px; letter-spacing:.2px">:</span>
+
+            <a href="mailto:info@phkfusionenergy.com"
+               id="emailLink"
+               style="text-decoration:underline; font-weight:1000; font-size:14px">
+              info@phkfusionenergy.com
+            </a>
           </div>
-          <div class="muted" style="font-size:12px; margin-top:6px" id="t_footerNote">
+
+          <div class="muted" style="font-size:12px" id="t_footerNote">
             PHK Fusion Energy — roadmap, partnerships, engineering readiness.
           </div>
         </div>
 
         <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <a class="pill" href="mailto:info@phkfusionenergy.com">✉️ <span id="t_sendEmail">Send Email</span></a>
           <button class="pill" type="button" id="copyEmailBtn">📩 <span id="t_copyEmail">Copy Email</span></button>
           <a class="pill" href="#top">⬆️ <span id="t_backTop">Back to top</span></a>
+        </div>
+      </div>
+
+      <!-- ✅ 하단 고정 CONTACT BAR (스크롤 안 내려도 보이게) -->
+      <div style="
+          position:sticky;
+          bottom:10px;
+          margin-top:12px;
+          border:1px solid rgba(255,255,255,.16);
+          background:rgba(16,26,50,.92);
+          border-radius:18px;
+          padding:12px 14px;
+          box-shadow: 0 18px 50px rgba(0,0,0,.35);
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:10px;
+          flex-wrap:wrap;
+        ">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
+          <span style="font-weight:1000">📌 <span id="t_contactMini">CONTACT</span></span>
+          <span class="muted" style="font-size:12px" id="t_contactMiniLabel">Email</span>
+          <span style="font-weight:1000; font-size:13px">info@phkfusionenergy.com</span>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <a class="pill" href="mailto:info@phkfusionenergy.com" style="padding:8px 10px">✉️ <span id="t_sendEmail2">Send</span></a>
+          <button class="pill" type="button" id="copyEmailBtn2" style="padding:8px 10px">📋 <span id="t_copyEmail2">Copy</span></button>
         </div>
       </div>
     </section>
@@ -502,7 +538,13 @@
           copyEmail:"Copy Email",
           backTop:"Back to top",
           toastCopied:"Copied",
-          toastCopyFail:"Copy failed"
+          toastCopyFail:"Copy failed",
+
+          sendEmail:"Send Email",
+          contactMini:"CONTACT",
+          contactMiniLabel:"Email",
+          send2:"Send",
+          copy2:"Copy"
         },
 
         ko:{
@@ -543,7 +585,13 @@
           copyEmail:"이메일 복사",
           backTop:"맨 위로",
           toastCopied:"복사 완료",
-          toastCopyFail:"복사 실패"
+          toastCopyFail:"복사 실패",
+
+          sendEmail:"메일 보내기",
+          contactMini:"연락처",
+          contactMiniLabel:"이메일",
+          send2:"보내기",
+          copy2:"복사"
         },
 
         ar:{
@@ -584,7 +632,13 @@
           copyEmail:"نسخ البريد",
           backTop:"أعلى الصفحة",
           toastCopied:"تم النسخ",
-          toastCopyFail:"فشل النسخ"
+          toastCopyFail:"فشل النسخ",
+
+          sendEmail:"إرسال بريد",
+          contactMini:"تواصل",
+          contactMiniLabel:"البريد",
+          send2:"إرسال",
+          copy2:"نسخ"
         }
       };
 
@@ -651,6 +705,13 @@
         setText("t_copyEmail", d.copyEmail);
         setText("t_backTop", d.backTop);
 
+        // extra contact text
+        setText("t_sendEmail", d.sendEmail);
+        setText("t_contactMini", d.contactMini);
+        setText("t_contactMiniLabel", d.contactMiniLabel);
+        setText("t_sendEmail2", d.send2);
+        setText("t_copyEmail2", d.copy2);
+
         document.documentElement.lang = use;
         document.documentElement.dir = (use === "ar") ? "rtl" : "ltr";
 
@@ -683,6 +744,10 @@
         }
       }
 
+      function toastMsgShow(msg){
+        showToast(msg);
+      }
+
       const saved = localStorage.getItem("phk_fusion_lang") || detectLang();
       applyLang(saved);
 
@@ -691,17 +756,30 @@
           const use = btn.dataset.lang;
           applyLang(use);
           const d = T[use] || T.en;
-          showToast(d.status);
+          toastMsgShow(d.status);
         });
       });
 
-      document.getElementById("copyEmailBtn").addEventListener("click", async ()=>{
-        const use = document.documentElement.lang || "en";
-        const d = T[use] || T.en;
-        const ok = await copyToClipboard(EMAIL);
-        showToast(ok ? `${d.toastCopied}: ${EMAIL}` : d.toastCopyFail);
-      });
+      // copy buttons
+      const b1 = document.getElementById("copyEmailBtn");
+      if(b1){
+        b1.addEventListener("click", async ()=>{
+          const ok = await copyToClipboard(EMAIL);
+          const lang = document.documentElement.lang || "en";
+          const d = T[lang] || T.en;
+          toastMsgShow(ok ? `${d.toastCopied}: ${EMAIL}` : d.toastCopyFail);
+        });
+      }
+      const b2 = document.getElementById("copyEmailBtn2");
+      if(b2){
+        b2.addEventListener("click", async ()=>{
+          const ok = await copyToClipboard(EMAIL);
+          const lang = document.documentElement.lang || "en";
+          const d = T[lang] || T.en;
+          toastMsgShow(ok ? `${d.toastCopied}: ${EMAIL}` : d.toastCopyFail);
+        });
+      }
     })();
   </script>
 </body>
-</html>
+</html>E
