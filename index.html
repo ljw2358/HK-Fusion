@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#081016" />
+  <title>PHK Fusion Energy</title>
+  <style>
+    :root{
+      --bg:#081016; --card:#0e1b2a; --muted:#93a7c6; --text:#eaf4ff;
+      --accent:#7cf0ff; --accent2:#9b7cff; --line:rgba(255,255,255,.10);
+      --ok:#7dffb0;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Pretendard,Apple SD Gothic Neo,Noto Sans KR,Arial,sans-serif;
+      background:
+        radial-gradient(1000px 700px at 15% 15%, rgba(124,240,255,.16), transparent 55%),
+        radial-gradient(900px 700px at 85% 20%, rgba(155,124,255,.12), transparent 55%),
+        linear-gradient(180deg, #05080d 0%, var(--bg) 45%, #05080d 100%);
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:18px 16px 52px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;position:sticky;top:0;padding:10px 0;backdrop-filter: blur(10px);}
+    .brand{display:flex;gap:10px;align-items:center}
+    .logo{
+      width:38px;height:38px;border-radius:12px;
+      background:linear-gradient(135deg, rgba(124,240,255,.95), rgba(155,124,255,.70));
+      box-shadow:0 12px 30px rgba(124,240,255,.18);
+      display:grid;place-items:center;color:#041018;font-weight:900;
+    }
+    .brand h1{margin:0;font-size:16px;letter-spacing:.3px}
+    .brand .sub{margin:2px 0 0;font-size:12px;color:var(--muted)}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .pill{border:1px solid var(--line);background:rgba(14,27,42,.55);color:var(--text);
+      padding:8px 10px;border-radius:999px;font-size:12px;cursor:pointer}
+    .pill:hover{border-color:rgba(124,240,255,.35)}
+    .pill.active{border-color:rgba(155,124,255,.55);box-shadow:0 0 0 3px rgba(155,124,255,.12) inset}
+    .hero{
+      margin-top:18px;padding:22px;border:1px solid var(--line);border-radius:18px;
+      background:linear-gradient(180deg, rgba(14,27,42,.72), rgba(14,27,42,.38));
+      box-shadow:0 18px 60px rgba(0,0,0,.35)
+    }
+    .kicker{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--line);
+      border-radius:999px;color:var(--muted);font-size:12px;background:rgba(5,8,13,.35)}
+    .dot{width:8px;height:8px;border-radius:99px;background:var(--ok);box-shadow:0 0 0 4px rgba(125,255,176,.12)}
+    .title{margin:14px 0 8px;font-size:28px;line-height:1.2;letter-spacing:-.2px}
+    .desc{margin:0;color:var(--muted);font-size:14px;line-height:1.65}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin-top:16px}
+    .card{grid-column:span 12;padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(14,27,42,.42)}
+    .card h3{margin:0 0 8px;font-size:15px}
+    .card p{margin:0;color:var(--muted);font-size:13px;line-height:1.65}
+    @media(min-width:860px){
+      .c4{grid-column:span 4}
+      .c6{grid-column:span 6}
+      .c8{grid-column:span 8}
+    }
+    .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .btn{
+      padding:11px 14px;border-radius:14px;border:1px solid var(--line);
+      background:rgba(5,8,13,.35);cursor:pointer;font-weight:700;font-size:13px;
+      display:inline-flex;gap:10px;align-items:center;
+    }
+    .btn.primary{
+      border-color:rgba(124,240,255,.55);
+      background:linear-gradient(135deg, rgba(124,240,255,.22), rgba(155,124,255,.16));
+      box-shadow:0 14px 30px rgba(124,240,255,.10);
+    }
+    .btn:hover{border-color:rgba(155,124,255,.45)}
+    .sectionTitle{margin:18px 0 10px;font-size:14px;color:var(--text);letter-spacing:.2px}
+    .list{display:grid;gap:10px}
+    .item{padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(14,27,42,.35)}
+    .item b{display:block;margin-bottom:6px;font-size:13px}
+    .item span{display:block;color:var(--muted);font-size:13px;line-height:1.6}
+    .footer{margin-top:18px;padding:14px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.6}
+    .toast{
+      position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+      padding:10px 12px;border-radius:12px;border:1px solid var(--line);
+      background:rgba(14,27,42,.92);color:var(--text);font-size:12px;
+      opacity:0;pointer-events:none;transition:opacity .18s ease;max-width:92vw;
+    }
+    .toast.show{opacity:1}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">PHK</div>
+        <div>
+          <h1 id="brandTitle">PHK Fusion Energy</h1>
+          <div class="sub" id="brandSub">핵융합 단독 사업/전략용 공식 앱</div>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="pill" id="langAuto" type="button">AUTO</button>
+        <button class="pill" id="langKo" type="button">KO</button>
+        <button class="pill" id="langEn" type="button">EN</button>
+        <button class="pill" id="langAr" type="button">AR</button>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="kicker"><span class="dot"></span><span id="kickerText">사업자/조직용: 핵융합 단독 프레임</span></div>
+      <h2 class="title" id="heroTitle">“핵융합은 연구가 아니라, 다음 문명의 에너지 구조다.”</h2>
+      <p class="desc" id="heroDesc">
+        PHK Fusion Energy는 핵융합 상용화 전략과 산업 생태계 구축을 목표로 합니다.
+        로보틱스·AI·안전·표준·장기운영 관점에서 ‘상용화 이후’를 설계합니다.
+      </p>
+
+      <div class="btnrow">
+        <button class="btn primary" id="btnContact" type="button">📩 <span id="btnContactTxt">협업/초빙 문의</span></button>
+        <button class="btn" id="btnVision" type="button">🧭 <span id="btnVisionTxt">핵심 비전</span></button>
+        <button class="btn" id="btnRoadmap" type="button">🗺️ <span id="btnRoadmapTxt">로드맵</span></button>
+      </div>
+
+      <div class="grid">
+        <div class="card c6">
+          <h3 id="c1t">핵심 범위</h3>
+          <p id="c1d">상용화 전략 · 산업 생태계 설계 · 시설 로보틱스/AI 결합 · 안전/표준 · 장기운영 프레임</p>
+        </div>
+        <div class="card c6">
+          <h3 id="c2t">핵심 실행 원칙</h3>
+          <p id="c2d">(1) 상용화 이후 설계 (2) 안전·규격 우선 (3) 운영·정비까지 포함 (4) 정부/대기업 협력 중심</p>
+        </div>
+        <div class="card c4">
+          <h3 id="c3t">초빙(정예)</h3>
+          <p id="c3d">핵융합 전략 리더 1명 / 시설·운영·안전 전문가 1명(필요 시) / 로보틱스·AI 연동 1명(필요 시)</p>
+        </div>
+        <div class="card c4">
+          <h3 id="c4t">사업 목적</h3>
+          <p id="c4d">핵융합 단독 사업자 등록 → 파트너 협의 → 파일럿 구조 설계 → 장기 인프라 계약 프레임 구축</p>
+        </div>
+        <div class="card c4">
+          <h3 id="c5t">기대 효과</h3>
+          <p id="c5d">에너지 안정성 · 산업 경쟁력 · 장기 인프라 수익 · 국가 단위 프로젝트 확장 기반</p>
+        </div>
+      </div>
+
+      <div class="sectionTitle" id="sec1">핵심 실행 항목</div>
+      <div class="list">
+        <div class="item"><b id="it1t">① 상용화 이후 프레임</b><span id="it1d">발전·그리드·산업단지 연계, 운영·정비·안전까지 포함하는 전체 구조 설계</span></div>
+        <div class="item"><b id="it2t">② 시설 로보틱스/AI 결합</b><span id="it2d">원격정비·검사·모니터링 자동화, 위험 작업 로봇화, 운영 효율 극대화</span></div>
+        <div class="item"><b id="it3t">③ 파트너십/계약 중심</b><span id="it3d">정부·대기업·연구기관 협력 → 파일럿 → 장기 인프라 계약으로 확장</span></div>
+      </div>
+
+      <div class="sectionTitle" id="sec2">연락 정보</div>
+      <div class="card">
+        <p class="desc" id="contactDesc">아래 버튼을 누르면 문의 문구가 복사됩니다. 링크드인 DM에 그대로 붙여넣어 주세요.</p>
+        <div class="btnrow">
+          <button class="btn primary" id="btnCopyDM" type="button">📋 <span id="copyDM">DM 문의 문구 복사</span></button>
+          <button class="btn" id="btnCopyBiz" type="button">📄 <span id="copyBiz">사업 소개 요약 복사</span></button>
+        </div>
+        <p class="desc mono" style="margin-top:10px;opacity:.9">* 연락처/이메일은 원하시는 것으로 교체하시면 됩니다.</p>
+      </div>
+
+      <div class="footer" id="footer">© PHK Fusion Energy. All rights reserved. <span class="mono">v1.0</span> · 핵융합 단독 앱 프레임</div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+<script>
+  const TEXT = {
+    ko:{
+      dir:"ltr",
+      brandSub:"핵융합 단독 사업/전략용 공식 앱",
+      kicker:"사업자/조직용: 핵융합 단독 프레임",
+      heroTitle:"“핵융합은 연구가 아니라, 다음 문명의 에너지 구조다.”",
+      heroDesc:"PHK Fusion Energy는 핵융합 상용화 전략과 산업 생태계 구축을 목표로 합니다. 로보틱스·AI·안전·표준·장기운영 관점에서 ‘상용화 이후’를 설계합니다.",
+      btnContact:"협업/초빙 문의", btnVision:"핵심 비전", btnRoadmap:"로드맵",
+      c1t:"핵심 범위", c1d:"상용화 전략 · 산업 생태계 설계 · 시설 로보틱스/AI 결합 · 안전/표준 · 장기운영 프레임",
+      c2t:"핵심 실행 원칙", c2d:"(1) 상용화 이후 설계 (2) 안전·규격 우선 (3) 운영·정비까지 포함 (4) 정부/대기업 협력 중심",
+      c3t:"초빙(정예)", c3d:"핵융합 전략 리더 1명 / 시설·운영·안전 전문가 1명(필요 시) / 로보틱스·AI 연동 1명(필요 시)",
+      c4t:"사업 목적", c4d:"핵융합 단독 사업자 등록 → 파트너 협의 → 파일럿 구조 설계 → 장기 인프라 계약 프레임 구축",
+      c5t:"기대 효과", c5d:"에너지 안정성 · 산업 경쟁력 · 장기 인프라 수익 · 국가 단위 프로젝트 확장 기반",
+      sec1:"핵심 실행 항목",
+      it1t:"① 상용화 이후 프레임", it1d:"발전·그리드·산업단지 연계, 운영·정비·안전까지 포함하는 전체 구조 설계",
+      it2t:"② 시설 로보틱스/AI 결합", it2d:"원격정비·검사·모니터링 자동화, 위험 작업 로봇화, 운영 효율 극대화",
+      it3t:"③ 파트너십/계약 중심", it3d:"정부·대기업·연구기관 협력 → 파일럿 → 장기 인프라 계약으로 확장",
+      sec2:"연락 정보",
+      contactDesc:"아래 버튼을 누르면 문의 문구가 복사됩니다. 링크드인 DM에 그대로 붙여넣어 주세요.",
+      copyDM:"DM 문의 문구 복사", copyBiz:"사업 소개 요약 복사",
+      footer:"© PHK Fusion Energy. All rights reserved. v1.0 · 핵융합 단독 앱 프레임",
+      copied:"복사 완료!", jumpVision:"비전 섹션으로 이동", jumpRoadmap:"로드맵(요약) 복사"
+    },
+    en:{
+      dir:"ltr",
+      brandSub:"Official Fusion-only app frame for business & strategy",
+      kicker:"Business/organization: Fusion-only frame",
+      heroTitle:"“Fusion is not a study. It is the next energy architecture.”",
+      heroDesc:"PHK Fusion Energy focuses on fusion commercialization strategy and industrial ecosystem design. We design the post-commercialization world with robotics, AI, safety, standards, and long-term operations.",
+      btnContact:"Contact / Invitation", btnVision:"Core Vision", btnRoadmap:"Roadmap",
+      c1t:"Core Scope", c1d:"Commercialization strategy · Ecosystem design · Facility robotics/AI · Safety/standards · Long-term operations",
+      c2t:"Execution Principles", c2d:"(1) Post-commercialization design (2) Safety & standards first (3) Ops & maintenance included (4) Gov/enterprise partnerships",
+      c3t:"Inviting", c3d:"1 Fusion strategy lead / 1 facility-ops-safety expert (as needed) / 1 robotics-AI integration lead (as needed)",
+      c4t:"Purpose", c4d:"Register fusion-only entity → partner discussions → pilot architecture → long-term infrastructure contract framework",
+      c5t:"Impact", c5d:"Energy stability · Industrial competitiveness · Long-term infra revenue · National-scale expansion",
+      sec1:"Key Execution Items",
+      it1t:"1) Post-commercialization framework", it1d:"Design the full structure including grid, industry linkage, operations, maintenance, and safety",
+      it2t:"2) Facility robotics/AI integration", it2d:"Automate inspection, monitoring, remote maintenance, and high-risk tasks",
+      it3t:"3) Contract-driven partnerships", it3d:"Partners → pilot → long-term infrastructure contracts",
+      sec2:"Contact",
+      contactDesc:"Tap the buttons to copy inquiry text. Paste it into LinkedIn DM.",
+      copyDM:"Copy DM Text", copyBiz:"Copy Business Summary",
+      footer:"© PHK Fusion Energy. All rights reserved. v1.0 · Fusion-only app frame",
+      copied:"Copied!", jumpVision:"Moved to vision", jumpRoadmap:"Roadmap summary copied"
+    },
+    ar:{
+      dir:"rtl",
+      brandSub:"إطار رسمي لتطبيق واحد لنشاط الاندماج النووي",
+      kicker:"نشاط/منظمة: إطار اندماج فقط",
+      heroTitle:"«الاندماج ليس دراسة… بل معمار الطاقة القادم.»",
+      heroDesc:"تركّز PHK Fusion Energy على استراتيجية تسويق الاندماج وتصميم النظام الصناعي بعد التسويق، مع دمج الروبوتات والذكاء الاصطناعي ومعايير السلامة والتشغيل طويل الأمد.",
+      btnContact:"تواصل / دعوة", btnVision:"الرؤية", btnRoadmap:"خارطة الطريق",
+      c1t:"النطاق", c1d:"استراتيجية التسويق · تصميم النظام الصناعي · روبوتات/ذكاء اصطناعي للمرافق · سلامة ومعايير · تشغيل طويل الأمد",
+      c2t:"مبادئ التنفيذ", c2d:"(1) تصميم ما بعد التسويق (2) السلامة أولاً (3) التشغيل والصيانة ضمن التصميم (4) شراكات حكومية/شركات",
+      c3t:"نبحث عن", c3d:"قائد استراتيجية اندماج 1 / خبير مرافق وتشغيل وسلامة (عند الحاجة) / قائد دمج روبوتات-ذكاء اصطناعي (عند الحاجة)",
+      c4t:"الهدف", c4d:"تسجيل كيان اندماج فقط → نقاش شركاء → هيكل تجريبي → إطار عقود بنية تحتية طويلة",
+      c5t:"الأثر", c5d:"استقرار الطاقة · تنافسية صناعية · عوائد بنية تحتية · توسع وطني",
+      sec1:"بنود التنفيذ",
+      it1t:"1) إطار ما بعد التسويق", it1d:"تصميم الهيكل الكامل مع الشبكة والصناعة والتشغيل والصيانة والسلامة",
+      it2t:"2) دمج روبوتات/ذكاء اصطناعي", it2d:"أتمتة التفتيش والمراقبة والصيانة عن بعد والمهام الخطرة",
+      it3t:"3) شراكات بعقود طويلة", it3d:"شركاء → تجربة → عقود بنية تحتية طويلة",
+      sec2:"التواصل",
+      contactDesc:"اضغط لنسخ نص الاستفسار والصقه في LinkedIn.",
+      copyDM:"نسخ نص الرسالة", copyBiz:"نسخ ملخص النشاط",
+      footer:"© PHK Fusion Energy. All rights reserved. v1.0 · إطار اندماج فقط",
+      copied:"تم النسخ!", jumpVision:"تم الانتقال للرؤية", jumpRoadmap:"تم نسخ ملخص خارطة الطريق"
+    }
+  };
+
+  const toastEl = document.getElementById("toast");
+  function toast(msg){
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(window.__t);
+    window.__t = setTimeout(()=>toastEl.classList.remove("show"), 1400);
+  }
+  async function copy(text, lang){
+    try{ await navigator.clipboard.writeText(text); toast(TEXT[lang].copied); }
+    catch(e){
+      const ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta);
+      ta.select(); document.execCommand("copy"); ta.remove();
+      toast(TEXT[lang].copied);
+    }
+  }
+  function pickAuto(){
+    const nav=(navigator.language||"ko").toLowerCase();
+    if(nav.startsWith("ar")) return "ar";
+    if(nav.startsWith("en")) return "en";
+    return "ko";
+  }
+  let mode="auto";
+  let current=pickAuto();
+
+  const els = {
+    brandSub:document.getElementById("brandSub"),
+    kicker:document.getElementById("kickerText"),
+    heroTitle:document.getElementById("heroTitle"),
+    heroDesc:document.getElementById("heroDesc"),
+    btnContactTxt:document.getElementById("btnContactTxt"),
+    btnVisionTxt:document.getElementById("btnVisionTxt"),
+    btnRoadmapTxt:document.getElementById("btnRoadmapTxt"),
+    c1t:document.getElementById("c1t"), c1d:document.getElementById("c1d"),
+    c2t:document.getElementById("c2t"), c2d:document.getElementById("c2d"),
+    c3t:document.getElementById("c3t"), c3d:document.getElementById("c3d"),
+    c4t:document.getElementById("c4t"), c4d:document.getElementById("c4d"),
+    c5t:document.getElementById("c5t"), c5d:document.getElementById("c5d"),
+    sec1:document.getElementById("sec1"),
+    it1t:document.getElementById("it1t"), it1d:document.getElementById("it1d"),
+    it2t:document.getElementById("it2t"), it2d:document.getElementById("it2d"),
+    it3t:document.getElementById("it3t"), it3d:document.getElementById("it3d"),
+    sec2:document.getElementById("sec2"),
+    contactDesc:document.getElementById("contactDesc"),
+    copyDM:document.getElementById("copyDM"),
+    copyBiz:document.getElementById("copyBiz"),
+    footer:document.getElementById("footer"),
+    auto:document.getElementById("langAuto"),
+    ko:document.getElementById("langKo"),
+    en:document.getElementById("langEn"),
+    ar:document.getElementById("langAr")
+  };
+
+  function setActive(){
+    [els.auto, els.ko, els.en, els.ar].forEach(b=>b.classList.remove("active"));
+    if(mode==="auto") els.auto.classList.add("active");
+    else{
+      if(current==="ko") els.ko.classList.add("active");
+      if(current==="en") els.en.classList.add("active");
+      if(current==="ar") els.ar.classList.add("active");
+    }
+  }
+
+  function apply(lang){
+    const t=TEXT[lang]||TEXT.ko;
+    document.documentElement.lang=lang;
+    document.documentElement.dir=t.dir;
+
+    els.brandSub.textContent=t.brandSub;
+    els.kicker.textContent=t.kicker;
+    els.heroTitle.textContent=t.heroTitle;
+    els.heroDesc.textContent=t.heroDesc;
+
+    els.btnContactTxt.textContent=t.btnContact;
+    els.btnVisionTxt.textContent=t.btnVision;
+    els.btnRoadmapTxt.textContent=t.btnRoadmap;
+
+    els.c1t.textContent=t.c1t; els.c1d.textContent=t.c1d;
+    els.c2t.textContent=t.c2t; els.c2d.textContent=t.c2d;
+    els.c3t.textContent=t.c3t; els.c3d.textContent=t.c3d;
+    els.c4t.textContent=t.c4t; els.c4d.textContent=t.c4d;
+    els.c5t.textContent=t.c5t; els.c5d.textContent=t.c5d;
+
+    els.sec1.textContent=t.sec1;
+    els.it1t.textContent=t.it1t; els.it1d.textContent=t.it1d;
+    els.it2t.textContent=t.it2t; els.it2d.textContent=t.it2d;
+    els.it3t.textContent=t.it3t; els.it3d.textContent=t.it3d;
+
+    els.sec2.textContent=t.sec2;
+    els.contactDesc.textContent=t.contactDesc;
+    els.copyDM.textContent=t.copyDM;
+    els.copyBiz.textContent=t.copyBiz;
+    els.footer.textContent=t.footer;
+
+    setActive();
+  }
+
+  document.getElementById("btnContact").addEventListener("click", ()=>{
+    const dm = current==="ko"
+      ? `[PHK Fusion Energy] 핵융합 상용화/산업화 전략 관련 협업(또는 초빙) 논의를 요청드립니다.\n\n- 분야: (상용화 전략 / 안전·운영 / 로보틱스·AI 결합)\n- 경력/프로젝트: (간단 요약)\n- 가능 일정: (예: 이번 주 20분 통화)\n\n비공개로 조용히 논의하고 싶습니다.`
+      : current==="ar"
+        ? `[PHK Fusion Energy] أود مناقشة تعاون/دعوة بشكل سري حول استراتيجية تسويق الاندماج.\n\n- المجال: (استراتيجية / سلامة وتشغيل / دمج روبوتات-ذكاء اصطناعي)\n- الخبرة: (ملخص)\n- الوقت المتاح: (مكالمة 20 دقيقة)\n\nلنناقش الأمر بهدوء وبشكل خاص.`
+        : `[PHK Fusion Energy] Requesting a discreet discussion on fusion commercialization & industrialization.\n\n- Domain: (strategy / safety-ops / robotics-AI integration)\n- Experience: (short)\n- Availability: (20-min call)\n\nI’d like a confidential conversation.`;
+    copy(dm, current);
+  });
+
+  document.getElementById("btnVision").addEventListener("click", ()=>{
+    window.scrollTo({top:0, behavior:"smooth"});
+    toast(TEXT[current].jumpVision);
+  });
+
+  document.getElementById("btnRoadmap").addEventListener("click", ()=>{
+    const road = current==="ko"
+      ? "로드맵(요약): ① 상용화 이후 구조 설계 → ② 안전/표준/운영 프레임 → ③ 시설 로보틱스·AI 결합 → ④ 파트너 협의/파일럿 → ⑤ 장기 인프라 계약 프레임"
+      : current==="ar"
+        ? "ملخص خارطة الطريق: 1) إطار ما بعد التسويق 2) السلامة والمعايير والتشغيل 3) دمج روبوتات/ذكاء اصطناعي 4) شركاء وتجربة 5) إطار عقود طويلة"
+        : "Roadmap: 1) post-commercialization framework 2) safety/standards/ops 3) facility robotics-AI 4) partners/pilot 5) long-term infra contracts";
+    copy(road, current);
+    toast(TEXT[current].jumpRoadmap);
+  });
+
+  document.getElementById("btnCopyDM").addEventListener("click", ()=>{
+    const t = current==="ko"
+      ? "PHK Fusion Energy는 핵융합 상용화 이후를 설계하는 조직입니다. 상용화 전략·안전·운영·시설 로보틱스/AI 결합 관점에서 비공개 협업(또는 초빙) 논의를 요청드립니다."
+      : current==="ar"
+        ? "PHK Fusion Energy تصمم عالم ما بعد تسويق الاندماج. نناقش التعاون/الدعوة سريًا حول الاستراتيجية والسلامة والتشغيل ودمج الروبوتات والذكاء الاصطناعي."
+        : "PHK Fusion Energy designs the post-commercialization world of fusion. Requesting a discreet discussion on strategy, safety/ops, and robotics-AI integration.";
+    copy(t, current);
+  });
+
+  document.getElementById("btnCopyBiz").addEventListener("click", ()=>{
+    const t = current==="ko"
+      ? "PHK Fusion Energy는 핵융합 상용화 전략과 산업 생태계 구축을 목표로 하는 핵융합 전문 사업/조직입니다. 안전·표준·장기운영 및 시설 로보틱스/AI 결합을 포함한 ‘상용화 이후’ 프레임을 설계합니다."
+      : current==="ar"
+        ? "PHK Fusion Energy جهة متخصصة بالاندماج: استراتيجية التسويق وبناء النظام الصناعي مع السلامة والمعايير والتشغيل طويل الأمد ودمج الروبوتات والذكاء الاصطناعي."
+        : "PHK Fusion Energy focuses on fusion commercialization strategy and ecosystem design, including safety, standards, long-term operations, and facility robotics/AI integration.";
+    copy(t, current);
+  });
+
+  els.auto.addEventListener("click", ()=>{ mode="auto"; current=pickAuto(); apply(current); });
+  els.ko.addEventListener("click", ()=>{ mode="manual"; current="ko"; apply(current); });
+  els.en.addEventListener("click", ()=>{ mode="manual"; current="en"; apply(current); });
+  els.ar.addEventListener("click", ()=>{ mode="manual"; current="ar"; apply(current); });
+
+  apply(current); mode="auto"; setActive();
+</script>
+</body>
+</html>
