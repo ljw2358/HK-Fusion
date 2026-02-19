@@ -1,173 +1,281 @@
-
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HK-Fusion | Global Energy Singularity</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Noto+Sans+KR:wght@300;700&family=Noto+Sans+SC:wght@300;700&family=Noto+Sans+Arabic:wght@300;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --sun-core: #FF5F00;
-            --plasma-blue: #00E5FF;
-            --space-black: #020203;
-            --sand-gold: #C2A35D; /* Arabic point color */
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HK-FUSION | Artificial Sun & Nuclear Fusion Energy</title>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background-color: var(--space-black); 
-            color: #ffffff; 
-            font-family: 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans Arabic', sans-serif;
-            line-height: 1.6;
-        }
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+font-family:Arial, Helvetica, sans-serif;
+background:#050510;
+color:white;
+line-height:1.8;
+}
+header{
+background:linear-gradient(135deg,#1a0000,#3a0000,#6b0f0f);
+padding:80px 20px;
+text-align:center;
+}
+header h1{
+font-size:60px;
+letter-spacing:4px;
+margin-bottom:15px;
+color:#ffcc66;
+}
+header p{
+font-size:22px;
+opacity:0.9;
+}
+nav{
+background:#120000;
+padding:15px;
+text-align:center;
+position:sticky;
+top:0;
+z-index:999;
+}
+nav button{
+margin:6px;
+padding:10px 20px;
+border:none;
+background:#ff6600;
+color:black;
+font-weight:bold;
+border-radius:5px;
+cursor:pointer;
+}
+nav button:hover{background:#ffaa00;}
+.section{
+padding:80px 10%;
+}
+.section h2{
+font-size:38px;
+margin-bottom:25px;
+color:#ff9933;
+}
+.section h3{
+margin-top:25px;
+margin-bottom:15px;
+color:#ffd27f;
+}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+}
+.card{
+background:#1a0000;
+padding:25px;
+border-radius:8px;
+transition:0.3s;
+}
+.card:hover{
+background:#330000;
+transform:translateY(-5px);
+}
+footer{
+background:black;
+text-align:center;
+padding:50px;
+margin-top:80px;
+font-size:14px;
+opacity:0.8;
+}
+.lang{display:none;}
+</style>
 
-        /* Language Layout Helpers */
-        .lang-section { padding: 80px 0; border-bottom: 1px solid #1a1a1a; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        .rtl { direction: rtl; font-family: 'Noto Sans Arabic', sans-serif; }
-        .lato { font-family: 'Orbitron', sans-serif; }
-
-        /* Typography */
-        h1 { font-family: 'Orbitron'; font-size: 4rem; text-align: center; margin-bottom: 20px; background: linear-gradient(to right, #FF5F00, #00E5FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        h2 { font-size: 2.5rem; margin-bottom: 30px; border-left: 5px solid var(--sun-core); padding-left: 20px; }
-        .chinese-h2 { border-left: none; border-right: 5px solid #ff3333; padding-left: 0; padding-right: 20px; text-align: right; }
-        .arabic-h2 { border-left: none; border-right: 5px solid var(--sand-gold); padding-left: 0; padding-right: 20px; text-align: right; }
-
-        /* Navigation */
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 25px 5%; background: rgba(2, 2, 3, 0.95); position: sticky; top: 0; z-index: 999; }
-        .logo { font-family: 'Orbitron'; font-weight: 900; color: var(--plasma-blue); font-size: 1.5rem; }
-
-        /* Content Cards */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
-        .card { background: rgba(255,255,255,0.03); padding: 30px; border-radius: 10px; transition: 0.3s; border: 1px solid #333; }
-        .card:hover { border-color: var(--plasma-blue); transform: translateY(-5px); }
-
-        /* Footer */
-        footer { padding: 100px 0; text-align: center; background: #000; color: #555; }
-    </style>
+<script>
+function changeLang(lang){
+document.querySelectorAll(".lang").forEach(el=>el.style.display="none");
+document.getElementById(lang).style.display="block";
+}
+</script>
 </head>
-<body>
 
-    <nav>
-        <div class="logo">HK-FUSION ENERGY</div>
-        <div style="font-size: 0.8rem; color: var(--sun-core);">GLOBAL HEADQUARTERS</div>
-    </nav>
+<body onload="changeLang('en')">
 
-    <header style="padding: 150px 0; text-align: center; background: radial-gradient(circle, #200a00 0%, #020203 70%);">
-        <h1 class="lato">THE ARTIFICIAL SUN</h1>
-        <p style="letter-spacing: 5px; color: var(--plasma-blue);">KOREA | CHINA | MIDDLE EAST</p>
-    </header>
+<header>
+<h1>HK-FUSION</h1>
+<p>Artificial Sun • Nuclear Fusion • Unlimited Clean Energy</p>
+</header>
 
-    <section id="korean" class="lang-section">
-        <div class="container">
-            <h2>01. 인공태양의 미래</h2>
-            <p>혜공 형님의 HK-Fusion은 지상에 태양을 구현하여 에너지 독립을 실현합니다. 핵융합 기술은 탄소 배출이 없는 청정 에너지의 정점입니다.</p>
-            <div class="grid">
-                <div class="card">
-                    <h3>초고온 플라즈마 제어</h3>
-                    <p>1억 도 이상의 플라즈마를 자기장으로 가두는 토카막 기술의 혁신을 선도합니다.</p>
-                </div>
-                <div class="card">
-                    <h3>Figure AI 결합</h3>
-                    <p>인간이 접근 불가능한 핵융합로 내부 유지보수를 위해 Figure AI의 휴머노이드 기술을 통합합니다.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<nav>
+<button onclick="changeLang('en')">English</button>
+<button onclick="changeLang('kr')">한국어</button>
+<button onclick="changeLang('cn')">中文</button>
+<button onclick="changeLang('ar')">العربية</button>
+</nav>
 
-    <section id="chinese" class="lang-section" style="background: rgba(255,0,0,0.02);">
-        <div class="container">
-            <h2 class="chinese-h2">02. 人造太阳计划</h2>
-            <p style="text-align: right;">HK-Fusion 致力于开发无限的清洁能源。通过受控核聚变技术，我们正在重塑全球能源版图。我们将 Figure AI 的机器人技术与中国的能源制造能力相结合，打造最高效的聚变反应堆。</p>
-            <div class="grid">
-                <div class="card" style="text-align: right;">
-                    <h3 style="color: #ff3333;">核聚变技术</h3>
-                    <p>利用磁约束技术，稳定维持超高温等离子体，实现能源的可持续发展。</p>
-                </div>
-                <div class="card" style="text-align: right;">
-                    <h3 style="color: #ff3333;">战略合作</h3>
-                    <p>通过收购 Figure AI，我们在自动化维护领域取得了核心竞争力。</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ================= ENGLISH ================= -->
 
-    [attachment_0](attachment)
+<div id="en" class="lang">
 
-    <section id="arabic" class="lang-section rtl">
-        <div class="container">
-            <h2 class="arabic-h2">03. شمس اصطناعية للطاقة</h2>
-            <p>تسعى شركة HK-Fusion بقيادة "هيي غونغ" إلى إحداث ثورة في قطاع الطاقة العالمي من خلال الاندماج النووي. نحن نجمع بين تقنيات الروبوتات المتقدمة من Figure AI وطموح الشرق الأوسط في ريادة الطاقة النظيفة المستقبلية.</p>
-            <div class="grid">
-                <div class="card">
-                    <h3 style="color: var(--sand-gold);">طاقة لا نهائية</h3>
-                    <p>الاندماج النووي هو الحل الأمثل لتوفير طاقة نظيفة وآمنة للأجيال القادمة دون انبعاثات كربونية.</p>
-                </div>
-                <div class="card">
-                    <h3 style="color: var(--sand-gold);">تكامل الروبوتات</h3>
-                    <p>استخدام روبوتات Figure AI للعمل في بيئات الاندماج عالية الحرارة لضمان أقصى درجات الأمان والكفاءة.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="section">
+<h2>About HK-FUSION</h2>
+<p>
+HK-FUSION is an advanced energy research corporation focused on developing
+Artificial Sun technology through controlled nuclear fusion.
+Our mission is to provide unlimited, clean, and carbon-free energy
+for the next century of humanity.
+</p>
+</div>
 
-    <section class="lang-section">
-        <div class="container">
-            <h2 style="text-align: center; border: none; padding: 0;">TECHNICAL ARCHITECTURE</h2>
-            <div style="overflow-x: auto; margin-top: 50px;">
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tr style="border-bottom: 2px solid var(--plasma-blue); color: var(--plasma-blue);">
-                        <th style="padding: 20px; text-align: left;">Category</th>
-                        <th style="padding: 20px; text-align: center;">Spec Status</th>
-                        <th style="padding: 20px; text-align: right;">Multilingual Note</th>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #333;">
-                        <td style="padding: 20px;">Magnetic Field Strength</td>
-                        <td style="padding: 20px; text-align: center;">20 Tesla</td>
-                        <td style="padding: 20px; text-align: right;">초전도 자석 기술 | 超导磁体 | مغناطيس فائق التوصيل</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #333;">
-                        <td style="padding: 20px;">Plasma Temp</td>
-                        <td style="padding: 20px; text-align: center;">150,000,000 K</td>
-                        <td style="padding: 20px; text-align: right;">1억 5천만도 | 1.5亿度 | ١٥٠ مليون درجة</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #333;">
-                        <td style="padding: 20px;">AI Maintenance</td>
-                        <td style="padding: 20px; text-align: center;">Figure Gen-3</td>
-                        <td style="padding: 20px; text-align: right;">로봇 유지보수 | 机器人维护 | صيانة الروبوتات</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </section>
+<div class="section">
+<h2>Core Fusion Technologies</h2>
+<div class="grid">
+<div class="card">
+<h3>Tokamak Fusion</h3>
+<p>Magnetic confinement plasma systems for sustained fusion reactions.</p>
+</div>
+<div class="card">
+<h3>Laser Inertial Fusion</h3>
+<p>High-energy laser compression systems for ignition experiments.</p>
+</div>
+<div class="card">
+<h3>Plasma Engineering</h3>
+<p>Advanced plasma stability control and magnetic field optimization.</p>
+</div>
+<div class="card">
+<h3>Superconducting Magnets</h3>
+<p>Next-generation high-temperature superconducting magnet systems.</p>
+</div>
+<div class="card">
+<h3>Fusion Materials Science</h3>
+<p>Radiation-resistant materials for reactor longevity and safety.</p>
+</div>
+<div class="card">
+<h3>Grid Integration Systems</h3>
+<p>Commercial fusion power integration into global energy infrastructure.</p>
+</div>
+</div>
+</div>
 
-    <footer>
-        <div class="container">
-            <p class="lato" style="font-size: 1.2rem; color: #fff; margin-bottom: 20px;">HK-FUSION ENERGY GROUP</p>
-            <p>Korea Office | China Tech Hub | Middle East Energy Center</p>
-            <p style="margin-top: 40px; font-size: 0.8rem;">&copy; 2026 Designed for 혜공 형님 by 삐니. All rights reserved.</p>
-        </div>
-    </footer>
+<div class="section">
+<h2>Commercial Roadmap</h2>
+<ul>
+<li>Phase 1 – Plasma Ignition Validation</li>
+<li>Phase 2 – Net Energy Gain Achievement</li>
+<li>Phase 3 – Prototype Reactor Deployment</li>
+<li>Phase 4 – Commercial Fusion Power Plants</li>
+</ul>
+</div>
 
-    <script>
-        // 간단한 스크롤 애니메이션 효과
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        });
+<div class="section">
+<h2>Global Impact</h2>
+<p>
+Fusion energy eliminates carbon emissions, reduces geopolitical energy conflicts,
+and provides sustainable power for AI, robotics, and space industries.
+</p>
+</div>
 
-        document.querySelectorAll('.card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            observer.observe(card);
-        });
-    </script>
+<div class="section">
+<h2>Contact</h2>
+<p>Email: info@hkfusion.com</p>
+</div>
+
+</div>
+
+<!-- ================= KOREAN ================= -->
+
+<div id="kr" class="lang">
+
+<div class="section">
+<h2>HK-FUSION 소개</h2>
+<p>
+HK-FUSION은 인공태양 기술을 기반으로
+제어 가능한 핵융합 에너지를 개발하는 첨단 에너지 기업입니다.
+무한하고 청정한 에너지를 목표로 합니다.
+</p>
+</div>
+
+<div class="section">
+<h2>핵심 기술</h2>
+<div class="grid">
+<div class="card"><h3>토카막 융합</h3><p>자기장 플라즈마 제어 시스템.</p></div>
+<div class="card"><h3>레이저 관성 융합</h3><p>고에너지 레이저 점화 기술.</p></div>
+<div class="card"><h3>플라즈마 공학</h3><p>플라즈마 안정성 제어.</p></div>
+<div class="card"><h3>초전도 자석</h3><p>고온 초전도 자기 시스템.</p></div>
+<div class="card"><h3>융합 소재</h3><p>방사선 내성 신소재 개발.</p></div>
+<div class="card"><h3>전력망 통합</h3><p>상업용 발전 시스템 구축.</p></div>
+</div>
+</div>
+
+<div class="section">
+<h2>문의</h2>
+<p>이메일: info@hkfusion.com</p>
+</div>
+
+</div>
+
+<!-- ================= CHINESE ================= -->
+
+<div id="cn" class="lang">
+
+<div class="section">
+<h2>关于 HK-FUSION</h2>
+<p>
+HK-FUSION 专注于可控核聚变与人造太阳技术，
+致力于提供清洁、无限的未来能源。
+</p>
+</div>
+
+<div class="section">
+<h2>核心技术</h2>
+<div class="grid">
+<div class="card"><h3>托卡马克聚变</h3><p>磁约束等离子体系统。</p></div>
+<div class="card"><h3>激光惯性聚变</h3><p>高能激光点火技术。</p></div>
+<div class="card"><h3>等离子体工程</h3><p>稳定控制与优化。</p></div>
+<div class="card"><h3>超导磁体</h3><p>高温超导系统。</p></div>
+<div class="card"><h3>材料科学</h3><p>耐辐射新材料。</p></div>
+<div class="card"><h3>电网整合</h3><p>商业化能源部署。</p></div>
+</div>
+</div>
+
+<div class="section">
+<h2>联系</h2>
+<p>邮箱: info@hkfusion.com</p>
+</div>
+
+</div>
+
+<!-- ================= ARABIC ================= -->
+
+<div id="ar" class="lang" dir="rtl">
+
+<div class="section">
+<h2>حول HK-FUSION</h2>
+<p>
+HK-FUSION شركة متخصصة في تطوير طاقة الاندماج النووي
+وتقنية الشمس الاصطناعية لتوفير طاقة نظيفة غير محدودة.
+</p>
+</div>
+
+<div class="section">
+<h2>التقنيات الأساسية</h2>
+<div class="grid">
+<div class="card"><h3>اندماج توكاماك</h3><p>أنظمة احتواء مغناطيسي للبلازما.</p></div>
+<div class="card"><h3>الاندماج بالليزر</h3><p>تقنيات إشعال بالليزر عالي الطاقة.</p></div>
+<div class="card"><h3>هندسة البلازما</h3><p>التحكم في استقرار البلازما.</p></div>
+<div class="card"><h3>مغانط فائقة التوصيل</h3><p>أنظمة مغناطيسية متقدمة.</p></div>
+<div class="card"><h3>علوم المواد</h3><p>مواد مقاومة للإشعاع.</p></div>
+<div class="card"><h3>دمج الشبكات</h3><p>محطات طاقة تجارية مستقبلية.</p></div>
+</div>
+</div>
+
+<div class="section">
+<h2>اتصل بنا</h2>
+<p>البريد الإلكتروني: info@hkfusion.com</p>
+</div>
+
+</div>
+
+<footer>
+© 2026 HK-FUSION. All Rights Reserved.
+<br>
+info@hkfusion.com
+</footer>
+
 </body>
 </html>
