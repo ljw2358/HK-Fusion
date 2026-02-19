@@ -1,414 +1,173 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PHK Fusion Energy</title>
-  <style>
-    :root{
-      --bg1:#0a1320;
-      --bg2:#04070c;
-      --card:rgba(255,255,255,0.045);
-      --line:rgba(255,255,255,0.10);
-      --text:#e5e7eb;
-      --muted:#cbd5e1;
-      --sub:#94a3b8;
-      --gold:#fbbf24;
-      --cyan:#7dd3fc;
-      --mint:#34d399;
-    }
-    body{
-      margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-      background:
-        radial-gradient(circle at 20% 0%, rgba(251,191,36,0.12), transparent 45%),
-        radial-gradient(circle at 85% 10%, rgba(125,211,252,0.10), transparent 45%),
-        linear-gradient(180deg,var(--bg1),var(--bg2));
-      color:var(--text);
-    }
-    .wrap{
-      max-width:980px;
-      margin:0 auto;
-      padding:86px 22px 70px;
-    }
-    /* Floating language */
-    .lang{
-      position:fixed;
-      top:16px;
-      right:16px;
-      z-index:10;
-      display:flex;
-      gap:8px;
-    }
-    .lang button{
-      background:rgba(17,24,39,0.82);
-      color:var(--text);
-      border:1px solid rgba(255,255,255,0.12);
-      border-radius:12px;
-      padding:8px 10px;
-      cursor:pointer;
-      font-size:13px;
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 14px;
-      border-radius:999px;
-      font-size:14px;
-      background:rgba(251,191,36,0.12);
-      color:#fde68a;
-      margin-bottom:16px;
-      border:1px solid rgba(251,191,36,0.15);
-    }
-    .dot{
-      width:9px;height:9px;border-radius:999px;
-      background:var(--gold);
-      box-shadow:0 0 16px rgba(251,191,36,.35);
-    }
-    h1{
-      font-size:46px;
-      line-height:1.15;
-      margin:0 0 18px;
-      letter-spacing:-0.6px;
-    }
-    p{
-      margin:0;
-      font-size:18px;
-      line-height:1.7;
-      color:var(--muted);
-      max-width:900px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HK-Fusion | Global Energy Singularity</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Noto+Sans+KR:wght@300;700&family=Noto+Sans+SC:wght@300;700&family=Noto+Sans+Arabic:wght@300;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sun-core: #FF5F00;
+            --plasma-blue: #00E5FF;
+            --space-black: #020203;
+            --sand-gold: #C2A35D; /* Arabic point color */
+        }
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:16px;
-      margin-top:30px;
-    }
-    @media(min-width:880px){
-      .grid.two{ grid-template-columns:1fr 1fr; }
-    }
-    .card{
-      background:var(--card);
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:18px;
-      padding:20px 20px 18px;
-    }
-    .card h2{
-      margin:0 0 10px;
-      font-size:18px;
-      color:var(--cyan);
-      letter-spacing:-0.2px;
-    }
-    .card p{ font-size:15.8px; color:var(--muted); }
-    ul{
-      margin:10px 0 0;
-      padding-left:18px;
-    }
-    li{
-      margin:8px 0;
-      font-size:15.5px;
-      color:var(--text);
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: var(--space-black); 
+            color: #ffffff; 
+            font-family: 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans Arabic', sans-serif;
+            line-height: 1.6;
+        }
 
-    .timeline{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:10px;
-      margin-top:12px;
-    }
-    .step{
-      border-radius:14px;
-      padding:12px 12px;
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.08);
-      min-height:78px;
-    }
-    .step b{
-      display:block;
-      font-size:12.5px;
-      color:#fde68a;
-      letter-spacing:0.2px;
-      margin-bottom:6px;
-    }
-    .step span{
-      display:block;
-      font-size:13.5px;
-      color:var(--muted);
-      line-height:1.45;
-    }
+        /* Language Layout Helpers */
+        .lang-section { padding: 80px 0; border-bottom: 1px solid #1a1a1a; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .rtl { direction: rtl; font-family: 'Noto Sans Arabic', sans-serif; }
+        .lato { font-family: 'Orbitron', sans-serif; }
 
-    .cta{
-      margin-top:18px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-    }
-    .btn{
-      padding:13px 18px;
-      border-radius:14px;
-      font-size:15.5px;
-      font-weight:700;
-      cursor:pointer;
-      border:1px solid rgba(255,255,255,0.14);
-      background:linear-gradient(135deg, rgba(251,191,36,0.22), rgba(125,211,252,0.12));
-      color:#fff;
-    }
-    .btn.alt{
-      background:transparent;
-      color:#fde68a;
-    }
+        /* Typography */
+        h1 { font-family: 'Orbitron'; font-size: 4rem; text-align: center; margin-bottom: 20px; background: linear-gradient(to right, #FF5F00, #00E5FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 2.5rem; margin-bottom: 30px; border-left: 5px solid var(--sun-core); padding-left: 20px; }
+        .chinese-h2 { border-left: none; border-right: 5px solid #ff3333; padding-left: 0; padding-right: 20px; text-align: right; }
+        .arabic-h2 { border-left: none; border-right: 5px solid var(--sand-gold); padding-left: 0; padding-right: 20px; text-align: right; }
 
-    .footer{
-      margin-top:38px;
-      padding-top:20px;
-      border-top:1px solid rgba(255,255,255,0.10);
-      font-size:14px;
-      color:var(--sub);
-      line-height:1.6;
-    }
-    .email{
-      margin-top:8px;
-      color:#7dd3fc;
-      font-weight:700;
-    }
+        /* Navigation */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 25px 5%; background: rgba(2, 2, 3, 0.95); position: sticky; top: 0; z-index: 999; }
+        .logo { font-family: 'Orbitron'; font-weight: 900; color: var(--plasma-blue); font-size: 1.5rem; }
 
-    /* Mobile: keep it one-page feel */
-    @media(max-width:420px){
-      h1{ font-size:40px; }
-      .timeline{ grid-template-columns:1fr 1fr; }
-    }
-  </style>
+        /* Content Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        .card { background: rgba(255,255,255,0.03); padding: 30px; border-radius: 10px; transition: 0.3s; border: 1px solid #333; }
+        .card:hover { border-color: var(--plasma-blue); transform: translateY(-5px); }
+
+        /* Footer */
+        footer { padding: 100px 0; text-align: center; background: #000; color: #555; }
+    </style>
 </head>
 <body>
 
-  <div class="lang">
-    <button onclick="setLang('ko')">KR</button>
-    <button onclick="setLang('en')">EN</button>
-    <button onclick="setLang('ar')">AR</button>
-  </div>
+    <nav>
+        <div class="logo">HK-FUSION ENERGY</div>
+        <div style="font-size: 0.8rem; color: var(--sun-core);">GLOBAL HEADQUARTERS</div>
+    </nav>
 
-  <main class="wrap">
-    <div class="pill"><span class="dot"></span><span id="tagline"></span></div>
+    <header style="padding: 150px 0; text-align: center; background: radial-gradient(circle, #200a00 0%, #020203 70%);">
+        <h1 class="lato">THE ARTIFICIAL SUN</h1>
+        <p style="letter-spacing: 5px; color: var(--plasma-blue);">KOREA | CHINA | MIDDLE EAST</p>
+    </header>
 
-    <h1 id="title"></h1>
-    <p id="intro"></p>
-
-    <section class="grid two">
-      <div class="card">
-        <h2 id="c1t"></h2>
-        <p id="c1d"></p>
-        <div class="timeline" id="timeline"></div>
-      </div>
-
-      <div class="card">
-        <h2 id="c2t"></h2>
-        <p id="c2d"></p>
-        <ul id="c2l"></ul>
-      </div>
+    <section id="korean" class="lang-section">
+        <div class="container">
+            <h2>01. 인공태양의 미래</h2>
+            <p>혜공 형님의 HK-Fusion은 지상에 태양을 구현하여 에너지 독립을 실현합니다. 핵융합 기술은 탄소 배출이 없는 청정 에너지의 정점입니다.</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>초고온 플라즈마 제어</h3>
+                    <p>1억 도 이상의 플라즈마를 자기장으로 가두는 토카막 기술의 혁신을 선도합니다.</p>
+                </div>
+                <div class="card">
+                    <h3>Figure AI 결합</h3>
+                    <p>인간이 접근 불가능한 핵융합로 내부 유지보수를 위해 Figure AI의 휴머노이드 기술을 통합합니다.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section class="grid two">
-      <div class="card">
-        <h2 id="c3t"></h2>
-        <p id="c3d"></p>
-        <ul id="c3l"></ul>
-      </div>
-
-      <div class="card">
-        <h2 id="c4t"></h2>
-        <p id="c4d"></p>
-        <ul id="c4l"></ul>
-      </div>
+    <section id="chinese" class="lang-section" style="background: rgba(255,0,0,0.02);">
+        <div class="container">
+            <h2 class="chinese-h2">02. 人造太阳计划</h2>
+            <p style="text-align: right;">HK-Fusion 致力于开发无限的清洁能源。通过受控核聚变技术，我们正在重塑全球能源版图。我们将 Figure AI 的机器人技术与中国的能源制造能力相结合，打造最高效的聚变反应堆。</p>
+            <div class="grid">
+                <div class="card" style="text-align: right;">
+                    <h3 style="color: #ff3333;">核聚变技术</h3>
+                    <p>利用磁约束技术，稳定维持超高温等离子体，实现能源的可持续发展。</p>
+                </div>
+                <div class="card" style="text-align: right;">
+                    <h3 style="color: #ff3333;">战略合作</h3>
+                    <p>通过收购 Figure AI，我们在自动化维护领域取得了核心竞争力。</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <div class="cta">
-      <button class="btn" id="btn1"></button>
-      <button class="btn alt" id="btn2"></button>
-    </div>
+    [attachment_0](attachment)
 
-    <footer class="footer">
-      <div><b>PHK Fusion Energy</b> · Roadmap · Safety · Engineering · Infrastructure</div>
-      <div class="email">Contact: info@phkfusion.com</div>
-      <div id="foot"></div>
+    <section id="arabic" class="lang-section rtl">
+        <div class="container">
+            <h2 class="arabic-h2">03. شمس اصطناعية للطاقة</h2>
+            <p>تسعى شركة HK-Fusion بقيادة "هيي غونغ" إلى إحداث ثورة في قطاع الطاقة العالمي من خلال الاندماج النووي. نحن نجمع بين تقنيات الروبوتات المتقدمة من Figure AI وطموح الشرق الأوسط في ريادة الطاقة النظيفة المستقبلية.</p>
+            <div class="grid">
+                <div class="card">
+                    <h3 style="color: var(--sand-gold);">طاقة لا نهائية</h3>
+                    <p>الاندماج النووي هو الحل الأمثل لتوفير طاقة نظيفة وآمنة للأجيال القادمة دون انبعاثات كربونية.</p>
+                </div>
+                <div class="card">
+                    <h3 style="color: var(--sand-gold);">تكامل الروبوتات</h3>
+                    <p>استخدام روبوتات Figure AI للعمل في بيئات الاندماج عالية الحرارة لضمان أقصى درجات الأمان والكفاءة.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="lang-section">
+        <div class="container">
+            <h2 style="text-align: center; border: none; padding: 0;">TECHNICAL ARCHITECTURE</h2>
+            <div style="overflow-x: auto; margin-top: 50px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr style="border-bottom: 2px solid var(--plasma-blue); color: var(--plasma-blue);">
+                        <th style="padding: 20px; text-align: left;">Category</th>
+                        <th style="padding: 20px; text-align: center;">Spec Status</th>
+                        <th style="padding: 20px; text-align: right;">Multilingual Note</th>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #333;">
+                        <td style="padding: 20px;">Magnetic Field Strength</td>
+                        <td style="padding: 20px; text-align: center;">20 Tesla</td>
+                        <td style="padding: 20px; text-align: right;">초전도 자석 기술 | 超导磁体 | مغناطيس فائق التوصيل</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #333;">
+                        <td style="padding: 20px;">Plasma Temp</td>
+                        <td style="padding: 20px; text-align: center;">150,000,000 K</td>
+                        <td style="padding: 20px; text-align: right;">1억 5천만도 | 1.5亿度 | ١٥٠ مليون درجة</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #333;">
+                        <td style="padding: 20px;">AI Maintenance</td>
+                        <td style="padding: 20px; text-align: center;">Figure Gen-3</td>
+                        <td style="padding: 20px; text-align: right;">로봇 유지보수 | 机器人维护 | صيانة الروبوتات</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="lato" style="font-size: 1.2rem; color: #fff; margin-bottom: 20px;">HK-FUSION ENERGY GROUP</p>
+            <p>Korea Office | China Tech Hub | Middle East Energy Center</p>
+            <p style="margin-top: 40px; font-size: 0.8rem;">&copy; 2026 Designed for 혜공 형님 by 삐니. All rights reserved.</p>
+        </div>
     </footer>
-  </main>
 
-<script>
-const DATA = {
-  ko:{
-    tagline:"로드맵 · 엔지니어링 · 안전 · 인프라",
-    title:"핵융합을\n‘실행 가능한 에너지’로.",
-    intro:"PHK Fusion Energy는 ‘핵융합’이라는 단어를 팔지 않습니다.\n우리는 장기 로드맵을 실행 계획으로 바꾸고,\n안전·정책·엔지니어링·인프라를 한 체계로 정렬합니다.",
-    c1t:"Fusion Execution OS (한 장 로드맵)",
-    c1d:"핵융합은 기술만으로 완성되지 않습니다. 실행 시스템이 먼저입니다.",
-    timeline:[
-      ["PHASE 1","R&D 정렬\n(기술 지도/우선순위)"],
-      ["PHASE 2","엔지니어링 준비\n(설계/부품/조달)"],
-      ["PHASE 3","안전·정책\n(규정/인허가/리스크)"],
-      ["PHASE 4","인프라 확장\n(전력/냉각/운영)"]
-    ],
-    c2t:"핵심 미션",
-    c2d:"우리가 만드는 것은 ‘발전소’가 아니라 ‘경로’입니다.",
-    c2l:[
-      "마일스톤 기반 실행: 측정 가능한 단계로 전진",
-      "안전 우선 설계: 사고를 ‘가정’하고 구조로 예방",
-      "파트너십 전략: 연구·공급망·운영 협력 모델",
-      "인프라 계획: 전력/열/냉각/운영의 현실화"
-    ],
-    c3t:"왜 PHK가 필요한가",
-    c3d:"핵융합 프로젝트는 실패 원인의 70%가 ‘기술 밖’에서 발생합니다.",
-    c3l:[
-      "연구는 진행되지만, 실행 조직이 부재한 경우",
-      "부품·조달·시험·운영이 분리되어 속도가 끊기는 경우",
-      "정책/인허가/안전 체계 미정으로 시간이 소모되는 경우",
-      "인프라(전력·냉각·시설) 준비 부족으로 병목이 생기는 경우"
-    ],
-    c4t:"파트너십이 원하는 것",
-    c4d:"협력자는 ‘아이디어’가 아니라 ‘구체적 역할’이 필요합니다.",
-    c4l:[
-      "연구기관: 시험 계획·데이터 공유·검증",
-      "제조/공급망: 부품 표준·납기·품질",
-      "정부/기관: 안전·규정·인허가 프레임",
-      "인프라/운영: 전력·냉각·운영 프로토콜"
-    ],
-    btn1:"파트너십 문의",
-    btn2:"기술/정책 브리핑 요청",
-    foot:"요청 시: 로드맵(단계별), 리스크 체계, 파트너 역할표, 인프라 준비 항목을 제공합니다."
-  },
+    <script>
+        // 간단한 스크롤 애니메이션 효과
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
 
-  en:{
-    tagline:"Roadmap · Engineering · Safety · Infrastructure",
-    title:"Fusion,\nmade executable.",
-    intro:"PHK Fusion Energy does not sell buzzwords.\nWe convert long-horizon fusion goals into an execution plan,\naligning safety, policy, engineering, and infrastructure as one system.",
-    c1t:"Fusion Execution OS (One-Page Roadmap)",
-    c1d:"Fusion is not only physics. Execution systems come first.",
-    timeline:[
-      ["PHASE 1","R&D alignment\n(map & priorities)"],
-      ["PHASE 2","Engineering readiness\n(design & sourcing)"],
-      ["PHASE 3","Safety & policy\n(rules & permits)"],
-      ["PHASE 4","Infrastructure scale\n(power & cooling)"]
-    ],
-    c2t:"Core Mission",
-    c2d:"We build the pathway—not just the plant.",
-    c2l:[
-      "Milestone execution: measurable progress gates",
-      "Safety-first design: prevent by structure",
-      "Partnership strategy: research, supply, operations",
-      "Infrastructure planning: power, heat, cooling, runbooks"
-    ],
-    c3t:"Why PHK Matters",
-    c3d:"Most fusion delays happen outside the lab.",
-    c3l:[
-      "Research exists, but execution org is missing",
-      "Supply, testing, and operations are disconnected",
-      "Policy/permits/safety frameworks are undefined",
-      "Infrastructure readiness becomes the bottleneck"
-    ],
-    c4t:"What Partners Need",
-    c4d:"Partners need clear roles, not abstract ideas.",
-    c4l:[
-      "Institutes: test plans, data-sharing, validation",
-      "Manufacturing: standards, delivery, quality",
-      "Government: safety, regulation, permitting",
-      "Infrastructure: power, cooling, operating protocols"
-    ],
-    btn1:"Partnership Inquiry",
-    btn2:"Request Briefing",
-    foot:"On request: phased roadmap, risk system, partner roles, infrastructure readiness checklist."
-  },
-
-  ar:{
-    tagline:"خارطة طريق · هندسة · سلامة · بنية تحتية",
-    title:"الاندماج النووي،\nقابل للتنفيذ.",
-    intro:"لا تبيع PHK Fusion Energy الشعارات.\nنحوّل أهداف الاندماج طويلة الأمد إلى خطة تنفيذ,\nونُحاذي السلامة والسياسات والهندسة والبنية التحتية كنظام واحد.",
-    c1t:"نظام تنفيذ الاندماج (خارطة صفحة واحدة)",
-    c1d:"الاندماج ليس فيزياء فقط. نظام التنفيذ يأتي أولاً.",
-    timeline:[
-      ["المرحلة 1","توحيد البحث والتطوير\n(خريطة وأولويات)"],
-      ["المرحلة 2","جاهزية الهندسة\n(تصميم وتوريد)"],
-      ["المرحلة 3","السلامة والسياسات\n(قوانين وتصاريح)"],
-      ["المرحلة 4","توسعة البنية التحتية\n(طاقة وتبريد)"]
-    ],
-    c2t:"المهمة الأساسية",
-    c2d:"نحن نبني المسار، لا نبيع الفكرة فقط.",
-    c2l:[
-      "تنفيذ بالمراحل: تقدم قابل للقياس",
-      "تصميم يسبق المخاطر: الوقاية بالهيكل",
-      "استراتيجية شراكات: بحث، توريد، تشغيل",
-      "تخطيط البنية التحتية: طاقة، حرارة، تبريد، تشغيل"
-    ],
-    c3t:"لماذا PHK",
-    c3d:"أغلب التأخير يحدث خارج المختبر.",
-    c3l:[
-      "وجود بحث دون منظمة تنفيذ واضحة",
-      "انفصال التوريد والاختبار والتشغيل",
-      "غياب أطر السلامة والتنظيم والتصاريح",
-      "البنية التحتية تصبح عنق الزجاجة"
-    ],
-    c4t:"ما يحتاجه الشركاء",
-    c4d:"الشركاء يحتاجون أدواراً واضحة لا أفكاراً عامة.",
-    c4l:[
-      "المعاهد: خطط اختبار، مشاركة بيانات، تحقق",
-      "التصنيع: معايير، تسليم، جودة",
-      "الحكومة: سلامة، تنظيم، تصاريح",
-      "البنية التحتية: طاقة، تبريد، بروتوكولات تشغيل"
-    ],
-    btn1:"استفسار الشراكة",
-    btn2:"طلب إحاطة",
-    foot:"عند الطلب: خارطة مراحل، نظام مخاطر، أدوار الشركاء، قائمة جاهزية البنية التحتية."
-  }
-};
-
-function setLang(lang){
-  const d = DATA[lang];
-  document.documentElement.lang = (lang==="ko")?"ko":(lang==="ar")?"ar":"en";
-  document.body.dir = (lang==="ar")?"rtl":"ltr";
-
-  document.getElementById("tagline").innerText = d.tagline;
-  document.getElementById("title").innerText = d.title;
-  document.getElementById("intro").innerText = d.intro;
-
-  document.getElementById("c1t").innerText = d.c1t;
-  document.getElementById("c1d").innerText = d.c1d;
-
-  const t = document.getElementById("timeline");
-  t.innerHTML = "";
-  d.timeline.forEach(row=>{
-    const div = document.createElement("div");
-    div.className="step";
-    div.innerHTML = `<b>${row[0]}</b><span>${row[1].replace(/\n/g,"<br>")}</span>`;
-    t.appendChild(div);
-  });
-
-  document.getElementById("c2t").innerText = d.c2t;
-  document.getElementById("c2d").innerText = d.c2d;
-  fillList("c2l", d.c2l);
-
-  document.getElementById("c3t").innerText = d.c3t;
-  document.getElementById("c3d").innerText = d.c3d;
-  fillList("c3l", d.c3l);
-
-  document.getElementById("c4t").innerText = d.c4t;
-  document.getElementById("c4d").innerText = d.c4d;
-  fillList("c4l", d.c4l);
-
-  document.getElementById("btn1").innerText = d.btn1;
-  document.getElementById("btn2").innerText = d.btn2;
-  document.getElementById("foot").innerText = d.foot;
-}
-function fillList(id, arr){
-  const ul = document.getElementById(id);
-  ul.innerHTML="";
-  arr.forEach(x=>{
-    const li=document.createElement("li");
-    li.innerText=x;
-    ul.appendChild(li);
-  });
-}
-
-setLang("ko");
-</script>
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            observer.observe(card);
+        });
+    </script>
 </body>
 </html>
